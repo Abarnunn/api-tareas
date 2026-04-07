@@ -23,7 +23,19 @@ public class TareaService {
         return repository.save(tarea);
     }
 
-    public void delete(Long id) {
+    public void deleteTarea(Long id) {
         repository.deleteById(id);
     }
+    
+    public Tarea updateTarea(Long id, Tarea nuevaTarea) {
+    return repository.findById(id)
+        .map(tarea -> {
+            tarea.setTitulo(nuevaTarea.getTitulo());
+            tarea.setDescripcion(nuevaTarea.getDescripcion());
+            tarea.setCompletada(nuevaTarea.isCompletada());
+            return repository.save(tarea);
+        })
+        .orElseThrow(() -> new RuntimeException("Tarea no encontrada con id " + id));
+    }
+
 }
