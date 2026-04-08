@@ -17,11 +17,20 @@ public class TareaController {
         this.service = service;
     }
 
+    /**
+     * endpoint para obtener todas las tareas almacenadas en la base de datos.
+     * @return lista de tareas
+     */
     @GetMapping
     public List<Tarea> getAllTareas() {
         return service.getAllTareas();
     }
 
+    /**
+     * endpoint para guardar una nueva tarea en la base de datos.
+     * @param tarea
+     * @return la tarea guardada con su ID generado
+     */
     @PostMapping
     public Tarea saveTarea(@RequestBody Tarea tarea) {
         return service.saveTarea(tarea);
@@ -31,4 +40,17 @@ public class TareaController {
     public void delete(@PathVariable Long id) {
         service.deleteTarea(id);
     }
+
+    /**
+     * endpoint para actualizar una tarea existente. Si la tarea no existe, se lanzará una excepción.
+     * @param id ID de la tarea a actualizar
+     * @param tarea objeto con los nuevos datos de la tarea
+     * @return la tarea actualizada
+     */
+    @PutMapping("/{id}")
+    public Tarea updateTarea(@PathVariable Long id, @RequestBody Tarea tarea) {
+        return service.updateTarea(id, tarea);
+    }
+
+
 }
