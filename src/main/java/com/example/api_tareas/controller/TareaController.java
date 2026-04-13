@@ -5,6 +5,8 @@ import com.example.api_tareas.service.TareaService;
 
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -32,7 +34,7 @@ public class TareaController {
      * @return la tarea guardada con su ID generado
      */
     @PostMapping
-    public Tarea saveTarea(@RequestBody Tarea tarea) {
+    public Tarea saveTarea(@Valid @RequestBody Tarea tarea) {
         return service.saveTarea(tarea);
     }
 
@@ -48,7 +50,7 @@ public class TareaController {
      * @return la tarea actualizada
      */
     @PutMapping("/{id}")
-    public Tarea updateTarea(@PathVariable Long id, @RequestBody Tarea tarea) {
+    public Tarea updateTarea(@PathVariable Long id,@Valid @RequestBody Tarea tarea) {
         return service.updateTarea(id, tarea);
     }
 
