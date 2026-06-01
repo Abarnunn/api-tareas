@@ -1,5 +1,6 @@
 package com.example.api_tareas.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class GlobalExceptionHandler {
 
     /**
      * Controlar errores de validación de los campos de entrada.
+     * 
      * @param ex
      * @return un mapa con el campo y el mensaje de error.
      */
@@ -33,12 +35,26 @@ public class GlobalExceptionHandler {
     /**
      * Controlar errores generales de runtime (ej: tarea no encontrada).
      */
-    @ExceptionHandler(RuntimeException.class)
-    public Map<String, String> handleRuntimeErrors(RuntimeException ex) {
+    @ExceptionHandler(TareaNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleRuntimeErrors(TareaNotFoundException ex) {
 
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", ex.getMessage());
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
 
-        return errors;
+        return error;
+    }
+
+    /**
+     * 
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleGeneral(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Error interno del servidor");
+        return error;
     }
 }
